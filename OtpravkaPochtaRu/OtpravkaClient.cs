@@ -10,7 +10,8 @@ using Request.OrderRequest;
 using Response.CreateOrderResult;
 using Response.FindOrderResult;
 using Response.Batch;
-
+using Response.NormalizedAddress;
+using Request.AddressRequest;
 
 namespace OtpravkaPochtaRu
 {
@@ -209,6 +210,48 @@ namespace OtpravkaPochtaRu
             var resultReturn = FindOrderResult.FromJson(result);
 
             return resultReturn;
+        }
+
+        /// <summary>
+        /// Поиск партий по наименованию
+        /// </summary>
+        /// <param name="BatchName">Имя партии</param>
+        /// <returns></returns>
+        public Batch GetBatchByName(string BatchName)
+        {
+            string url = $"{this._BaseUrl}/1.0/batch/{BatchName}";
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncGET(url)))
+                    .Result;
+            var resultReturn = Batch.FromJson(result)[0];
+
+            return resultReturn;
+        }
+
+        /// <summary>
+        /// Нормализация адреса
+        /// </summary>
+        /// <param name="addressRequest">Массив NormalizedAddress'ов</param>
+        /// <returns></returns>
+        public NormalizedAddress[] NormalizedAddressRequest(AddressRequest[] addressRequest)
+        {
+            if (addressRequest.Length == 0) throw new NullReferenceException("Массив объекта 'AddressRequest' пуст.");
+
+            // Url сервиса
+            string url = $"{this._BaseUrl}/1.0/user/backlog";
+
+            // Тело для запроса
+            var RequestInJson = Request.AddressRequest.Serialize.ToJson(addressRequest);
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncPOST(url, RequestInJson)))
+                    .Result;
+            var createOrderResult = NormalizedAddress.FromJson(result);
+
+            return createOrderResult;
         }
     }
 }
