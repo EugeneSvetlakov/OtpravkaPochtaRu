@@ -12,6 +12,10 @@ using Response.FindOrderResult;
 using Response.Batch;
 using Response.NormalizedAddress;
 using Request.AddressRequest;
+using Request.FioRequest;
+using Response.NormalizedFio;
+using Response.NormalizedPhone;
+using Request.PhoneRequest;
 
 namespace OtpravkaPochtaRu
 {
@@ -240,7 +244,7 @@ namespace OtpravkaPochtaRu
             if (addressRequest.Length == 0) throw new NullReferenceException("Массив объекта 'AddressRequest' пуст.");
 
             // Url сервиса
-            string url = $"{this._BaseUrl}/1.0/user/backlog";
+            string url = $"{this._BaseUrl}/1.0/clean/address";
 
             // Тело для запроса
             var RequestInJson = Request.AddressRequest.Serialize.ToJson(addressRequest);
@@ -250,6 +254,49 @@ namespace OtpravkaPochtaRu
                     => await AsyncPOST(url, RequestInJson)))
                     .Result;
             var createOrderResult = NormalizedAddress.FromJson(result);
+
+            return createOrderResult;
+        }
+
+        /// <summary>
+        /// Нормализация ФИО
+        /// </summary>
+        /// <param name="fioRequest">Массив FioRequest</param>
+        /// <returns></returns>
+        public NormalizedFio[] NormalizedFioRequest(FioRequest[] fioRequest)
+        {
+            if (fioRequest.Length == 0) throw new NullReferenceException("Массив объекта 'AddressRequest' пуст.");
+
+            // Url сервиса
+            string url = $"{this._BaseUrl}/1.0/clean/physical";
+
+            // Тело для запроса
+            var RequestInJson = Request.FioRequest.Serialize.ToJson(fioRequest);
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncPOST(url, RequestInJson)))
+                    .Result;
+            var createOrderResult = NormalizedFio.FromJson(result);
+
+            return createOrderResult;
+        }
+
+        public NormalizedPhone[] NormalizedPhoneRequest(PhoneRequest[] PhoneRequest)
+        {
+            if (PhoneRequest.Length == 0) throw new NullReferenceException("Массив объекта 'AddressRequest' пуст.");
+
+            // Url сервиса
+            string url = $"{this._BaseUrl}/1.0/clean/physical";
+
+            // Тело для запроса
+            var RequestInJson = Request.PhoneRequest.Serialize.ToJson(PhoneRequest);
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncPOST(url, RequestInJson)))
+                    .Result;
+            var createOrderResult = NormalizedPhone.FromJson(result);
 
             return createOrderResult;
         }
