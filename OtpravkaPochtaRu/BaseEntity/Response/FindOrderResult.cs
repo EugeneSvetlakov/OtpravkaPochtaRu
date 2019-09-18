@@ -47,8 +47,8 @@ namespace Response.FindOrderResult
         [JsonProperty("batch-status", NullValueHandling = NullValueHandling.Ignore)]
         public string BatchStatus { get; set; }
 
-        [JsonProperty("brand-name", NullValueHandling = NullValueHandling.Ignore)]
-        public string BrandName { get; set; }
+        [JsonProperty("branch-name", NullValueHandling = NullValueHandling.Ignore)]
+        public string BranchName { get; set; }
 
         [JsonProperty("building-to", NullValueHandling = NullValueHandling.Ignore)]
         public string BuildingTo { get; set; }

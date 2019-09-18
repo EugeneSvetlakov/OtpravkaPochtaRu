@@ -9,6 +9,7 @@ using Newtonsoft.Json.Converters;
 using Request.OrderRequest;
 using Response.CreateOrderResult;
 using Response.FindOrderResult;
+using Response.Batch;
 
 
 namespace OtpravkaPochtaRu
@@ -135,7 +136,7 @@ namespace OtpravkaPochtaRu
         /// Создание заказа в "Отправка ПочтаРоссии"
         /// </summary>
         /// <param name="orderRequest">Запрос через класс OrderRequest[] = {new OrderRequest{...}, ...}</param>
-        /// <returns></returns>
+        /// <returns>Ответ с идентификаторами заказов</returns>
         public CreateOrderResult CreateOrder(OrderRequest[] orderRequest)
         {
             if (orderRequest.Length == 0) throw new NullReferenceException("Массив объекта 'Заказ' пуст.");
@@ -155,11 +156,51 @@ namespace OtpravkaPochtaRu
             return createOrderResult;
         }
 
+        /// <summary>
+        /// Поиск заказов с ШПИ
+        /// </summary>
+        /// <param name="Barcode">Штрихкод(ШПИ)</param>
+        /// <returns>Массив FindOrderResult</returns>
         public FindOrderResult[] GetOrderByBarcode(string Barcode)
         {
             if(string.IsNullOrWhiteSpace(Barcode)) throw new NullReferenceException("string Barcode is NullOrEmpty");
 
             string url = $"{this._BaseUrl}/1.0/shipment/search?query={Barcode}";
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncGET(url)))
+                    .Result;
+            var resultReturn = FindOrderResult.FromJson(result);
+
+            return resultReturn;
+        }
+
+        /// <summary>
+        /// Запрос данных о партиях в архиве
+        /// </summary>
+        /// <returns></returns>
+        public Batch[] GetAllBatchesInArchive()
+        {
+            string url = $"{this._BaseUrl}/1.0/archive";
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncGET(url)))
+                    .Result;
+            var resultReturn = Batch.FromJson(result);
+
+            return resultReturn;
+        }
+
+        /// <summary>
+        /// Запрос данных о заказах в партии
+        /// </summary>
+        /// <param name="BatchName">Имя партии</param>
+        /// <returns></returns>
+        public FindOrderResult[] GetOrdersInBatch(string BatchName)
+        {
+            string url = $"{this._BaseUrl}/1.0/batch/{BatchName}/shipment";
 
             string result =
                 (Task.Run(async ()
