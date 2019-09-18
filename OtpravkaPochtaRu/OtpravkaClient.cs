@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using OtpravkaPochtaRu.BaseEntity.Request;
-using OtpravkaPochtaRu.BaseEntity.Response;
+using Request.OrderRequest;
+using Response.CreateOrderResult;
+using Response.FindOrderResult;
+
 
 namespace OtpravkaPochtaRu
 {
@@ -118,7 +120,7 @@ namespace OtpravkaPochtaRu
             string url = $"{this._BaseUrl}/1.0/user/backlog";
 
             // Тело для запроса
-            var RequestInJson = OtpravkaPochtaRu.BaseEntity.Request.Serialize.ToJson(orderRequests);
+            var RequestInJson = Request.OrderRequest.Serialize.ToJson(orderRequests);
             
             string result =
                 (Task.Run(async ()
@@ -142,7 +144,7 @@ namespace OtpravkaPochtaRu
             string url = $"{this._BaseUrl}/1.0/user/backlog";
 
             // Тело для запроса
-            var RequestInJson = OtpravkaPochtaRu.BaseEntity.Request.Serialize.ToJson(orderRequest);
+            var RequestInJson = Request.OrderRequest.Serialize.ToJson(orderRequest);
 
             string result =
                 (Task.Run(async ()
@@ -151,6 +153,21 @@ namespace OtpravkaPochtaRu
             var createOrderResult = CreateOrderResult.FromJson(result);
 
             return createOrderResult;
+        }
+
+        public FindOrderResult[] GetOrderByBarcode(string Barcode)
+        {
+            if(string.IsNullOrWhiteSpace(Barcode)) throw new NullReferenceException("string Barcode is NullOrEmpty");
+
+            string url = $"{this._BaseUrl}/1.0/shipment/search?query={Barcode}";
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncGET(url)))
+                    .Result;
+            var resultReturn = FindOrderResult.FromJson(result);
+
+            return resultReturn;
         }
     }
 }

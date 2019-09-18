@@ -6,7 +6,7 @@
 //
 //    var orderRequest = OrderRequest.FromJson(jsonString);
 
-namespace OtpravkaPochtaRu.BaseEntity.Request
+namespace Request.OrderRequest
 {
     using System;
     using System.Collections.Generic;
@@ -538,7 +538,7 @@ namespace OtpravkaPochtaRu.BaseEntity.Request
         /// </summary>
         /// <param name="json">строка JSON</param>
         /// <returns></returns>
-        public static OrderRequest[] FromJson(string json) => JsonConvert.DeserializeObject<OrderRequest[]>(json, OtpravkaPochtaRu.BaseEntity.Request.Converter.Settings);
+        public static OrderRequest[] FromJson(string json) => JsonConvert.DeserializeObject<OrderRequest[]>(json, Request.OrderRequest.Converter.Settings);
     }
 
     public static class Serialize
@@ -548,7 +548,7 @@ namespace OtpravkaPochtaRu.BaseEntity.Request
         /// </summary>
         /// <param name="self">Массив элементов запроса</param>
         /// <returns></returns>
-        public static string ToJson(this OrderRequest[] self) => JsonConvert.SerializeObject(self, OtpravkaPochtaRu.BaseEntity.Request.Converter.Settings);
+        public static string ToJson(this OrderRequest[] self) => JsonConvert.SerializeObject(self, Request.OrderRequest.Converter.Settings);
     }
 
     /// <summary>

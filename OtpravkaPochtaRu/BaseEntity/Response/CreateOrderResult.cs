@@ -6,7 +6,7 @@
 //
 //    var orderResponse = OrderResponse.FromJson(jsonString);
 
-namespace OtpravkaPochtaRu.BaseEntity.Response
+namespace Response.CreateOrderResult
 {
     using System;
     using System.Collections.Generic;
@@ -50,12 +50,12 @@ namespace OtpravkaPochtaRu.BaseEntity.Response
 
     public partial class CreateOrderResult
     {
-        public static CreateOrderResult FromJson(string json) => JsonConvert.DeserializeObject<CreateOrderResult>(json, OtpravkaPochtaRu.BaseEntity.Response.Converter.Settings);
+        public static CreateOrderResult FromJson(string json) => JsonConvert.DeserializeObject<CreateOrderResult>(json, Response.CreateOrderResult.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this CreateOrderResult self) => JsonConvert.SerializeObject(self, OtpravkaPochtaRu.BaseEntity.Response.Converter.Settings);
+        public static string ToJson(this CreateOrderResult self) => JsonConvert.SerializeObject(self, Response.CreateOrderResult.Converter.Settings);
     }
 
     internal static class Converter
