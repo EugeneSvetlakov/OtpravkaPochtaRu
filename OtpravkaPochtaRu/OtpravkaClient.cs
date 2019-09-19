@@ -193,7 +193,7 @@ namespace OtpravkaPochtaRu
         }
 
         /// <summary>
-        /// Создание заказа в "Отправка ПочтаРоссии"
+        /// Создание заказа
         /// </summary>
         /// <param name="JsonOrderRequest">Запрос посредством Json</param>
         /// <returns></returns>
@@ -219,7 +219,7 @@ namespace OtpravkaPochtaRu
         }
 
         /// <summary>
-        /// Создание заказа в "Отправка ПочтаРоссии"
+        /// Создание заказа
         /// </summary>
         /// <param name="orderRequest">Запрос через класс OrderRequest[] = {new OrderRequest{...}, ...}</param>
         /// <returns>Ответ с идентификаторами заказов</returns>
@@ -339,7 +339,7 @@ namespace OtpravkaPochtaRu
         }
 
         /// <summary>
-        /// Поиск партий по наименованию
+        /// Поиск партии по наименованию
         /// </summary>
         /// <param name="BatchName">Имя партии</param>
         /// <returns></returns>
@@ -357,9 +357,9 @@ namespace OtpravkaPochtaRu
         }
 
         /// <summary>
-        /// Поиск заказа в партии по внутреннему id
+        /// Поиск заказа в партии по внутреннему  Id (Должна существовать не Архивная партия)
         /// </summary>
-        /// <param name="Id">Внутренний id заказа</param>
+        /// <param name="Id">Внутренний Id заказа</param>
         /// <returns></returns>
         public FindOrderResult GetOrderInBatchById(long Id)
         {
@@ -442,6 +442,11 @@ namespace OtpravkaPochtaRu
             return createOrderResult;
         }
 
+        /// <summary>
+        /// Нормализация телефонного номера
+        /// </summary>
+        /// <param name="PhoneRequest"></param>
+        /// <returns></returns>
         public NormalizedPhone[] NormalizedPhoneRequest(PhoneRequest[] PhoneRequest)
         {
             if (PhoneRequest.Length == 0) throw new NullReferenceException("Массив объекта 'AddressRequest' пуст.");
