@@ -47,9 +47,6 @@ namespace Response.FindOrderResult
         [JsonProperty("batch-status", NullValueHandling = NullValueHandling.Ignore)]
         public string BatchStatus { get; set; }
 
-        [JsonProperty("branch-name", NullValueHandling = NullValueHandling.Ignore)]
-        public string BranchName { get; set; }
-
         [JsonProperty("building-to", NullValueHandling = NullValueHandling.Ignore)]
         public string BuildingTo { get; set; }
 
@@ -387,11 +384,15 @@ namespace Response.FindOrderResult
     public partial class FindOrderResult
     {
         public static FindOrderResult[] FromJson(string json) => JsonConvert.DeserializeObject<FindOrderResult[]>(json, Response.FindOrderResult.Converter.Settings);
+
+        public static FindOrderResult FromJsonSingl(string json) => JsonConvert.DeserializeObject<FindOrderResult>(json, Response.FindOrderResult.Converter.Settings);
     }
 
     public static class Serialize
     {
         public static string ToJson(this FindOrderResult[] self) => JsonConvert.SerializeObject(self, Response.FindOrderResult.Converter.Settings);
+
+        public static string ToJson(this FindOrderResult self) => JsonConvert.SerializeObject(self, Response.FindOrderResult.Converter.Settings);
     }
 
     internal static class Converter

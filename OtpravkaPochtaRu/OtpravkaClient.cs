@@ -16,6 +16,8 @@ using Request.FioRequest;
 using Response.NormalizedFio;
 using Response.NormalizedPhone;
 using Request.PhoneRequest;
+using Request.DeleteOrderRequest;
+using Response.DeleteOrderResult;
 
 namespace OtpravkaPochtaRu
 {
@@ -34,12 +36,12 @@ namespace OtpravkaPochtaRu
         /// </summary>
         readonly string _BaseUrl;
         /// <summary>
-        /// Прокси для отправки запроса.
+        /// Прокси для отправки запроса. = new WebProxy(string Host, int Port);
         /// </summary>
         IWebProxy _Proxy;
 
         /// <summary>
-        /// 
+        /// Конструктор клиента к Api Отправка ПочтаРоссии
         /// </summary>
         /// <param name="UserAuthorization"></param>
         /// <param name="Token"></param>
@@ -53,11 +55,15 @@ namespace OtpravkaPochtaRu
             _Proxy = Proxy;
         }
 
+        /// <summary>
+        /// Асинхронный GET Web-запрос
+        /// </summary>
+        /// <param name="url">Url запроса</param>
+        /// <returns></returns>
         public async Task<string> AsyncGET(string url)
         {
             //генерация запроса
             HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
-            req.Method = "GET";
             req.Timeout = 10000;
             if (this._Proxy != null)
             {
@@ -68,18 +74,21 @@ namespace OtpravkaPochtaRu
             req.ContentType = "application/json";
             req.Accept = "application/json";
 
-            Stream sendStream = req.GetRequestStream();
-
             //получение ответа
             var res = req.GetResponse() as HttpWebResponse;
             var resStream = res.GetResponseStream();
             var sr = new StreamReader(resStream, Encoding.UTF8);
             var resString = await sr.ReadToEndAsync();
 
-
             return resString;
         }
 
+        /// <summary>
+        /// Асинхронный POST Web-запрос
+        /// </summary>
+        /// <param name="url">Url запроса</param>
+        /// <param name="JsonString">Тело запроса</param>
+        /// <returns></returns>
         public async Task<string> AsyncPOST(string url, string JsonString)
         {
             //генерация запроса
@@ -107,6 +116,78 @@ namespace OtpravkaPochtaRu
             var sr = new StreamReader(resStream, Encoding.UTF8);
             var resString = await sr.ReadToEndAsync();
 
+            return resString;
+        }
+
+        /// <summary>
+        /// Асинхронный PUT Web-запрос
+        /// </summary>
+        /// <param name="url">Url запроса</param>
+        /// <param name="JsonString">Тело запроса</param>
+        /// <returns></returns>
+        public async Task<string> AsyncPUT(string url, string JsonString)
+        {
+            //генерация запроса
+            HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
+            req.Method = "PUT";
+            req.Timeout = 10000;
+            if (this._Proxy != null)
+            {
+                req.Proxy = this._Proxy;
+            }
+            req.Headers.Add("Authorization", this._Token);  //указываем токен, полученный при регистрации
+            req.Headers.Add("X-User-Authorization", this._UserAuthorization);  //указываем токен, полученный при регистрации
+            req.ContentType = "application/json";
+            req.Accept = "application/json";
+
+            //данные для отправки
+            var sentData = Encoding.UTF8.GetBytes(JsonString);
+            req.ContentLength = sentData.Length;
+            Stream sendStream = req.GetRequestStream();
+            sendStream.Write(sentData, 0, sentData.Length);
+
+            //получение ответа
+            var res = req.GetResponse() as HttpWebResponse;
+            var resStream = res.GetResponseStream();
+            var sr = new StreamReader(resStream, Encoding.UTF8);
+            var resString = await sr.ReadToEndAsync();
+
+            return resString;
+        }
+
+
+        /// <summary>
+        /// Асинхронный DELETE Web-запрос
+        /// </summary>
+        /// <param name="url">Url запроса</param>
+        /// <param name="JsonString">Тело запроса</param>
+        /// <returns></returns>
+        public async Task<string> AsyncDELETE(string url, string JsonString)
+        {
+            //генерация запроса
+            HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
+            req.Method = "DELETE";
+            req.Timeout = 10000;
+            if (this._Proxy != null)
+            {
+                req.Proxy = this._Proxy;
+            }
+            req.Headers.Add("Authorization", this._Token);  //указываем токен, полученный при регистрации
+            req.Headers.Add("X-User-Authorization", this._UserAuthorization);  //указываем токен, полученный при регистрации
+            req.ContentType = "application/json";
+            req.Accept = "application/json";
+
+            //данные для отправки
+            var sentData = Encoding.UTF8.GetBytes(JsonString);
+            req.ContentLength = sentData.Length;
+            Stream sendStream = req.GetRequestStream();
+            sendStream.Write(sentData, 0, sentData.Length);
+
+            //получение ответа
+            var res = req.GetResponse() as HttpWebResponse;
+            var resStream = res.GetResponseStream();
+            var sr = new StreamReader(resStream, Encoding.UTF8);
+            var resString = await sr.ReadToEndAsync();
 
             return resString;
         }
@@ -130,7 +211,7 @@ namespace OtpravkaPochtaRu
             
             string result =
                 (Task.Run(async ()
-                    => await AsyncPOST(url, RequestInJson)))
+                    => await AsyncPUT(url, RequestInJson)))
                     .Result;
             var createOrderResult = CreateOrderResult.FromJson(result);
 
@@ -154,7 +235,7 @@ namespace OtpravkaPochtaRu
 
             string result =
                 (Task.Run(async ()
-                    => await AsyncPOST(url, RequestInJson)))
+                    => await AsyncPUT(url, RequestInJson)))
                     .Result;
             var createOrderResult = CreateOrderResult.FromJson(result);
 
@@ -162,7 +243,31 @@ namespace OtpravkaPochtaRu
         }
 
         /// <summary>
-        /// Поиск заказов с ШПИ
+        /// Удаление заказа
+        /// </summary>
+        /// <param name="ordersArray">Массив Id удаляемых заказов</param>
+        /// <returns></returns>
+        public DeleteOrderResult DeleteOrder(long[] ordersArray)
+        {
+            if (ordersArray.Length == 0) throw new NullReferenceException("Массив с id удаляемых Заказов пуст.");
+
+            // Url сервиса
+            string url = $"{this._BaseUrl}/1.0/backlog";
+
+            // Тело для запроса
+            var RequestInJson = Request.DeleteOrderRequest.Serialize.ToJson(ordersArray);
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncPUT(url, RequestInJson)))
+                    .Result;
+            var deleteResult = DeleteOrderResult.FromJson(result);
+
+            return deleteResult;
+        }
+
+        /// <summary>
+        /// Поиск заказов по ШПИ
         /// </summary>
         /// <param name="Barcode">Штрихкод(ШПИ)</param>
         /// <returns>Массив FindOrderResult</returns>
@@ -199,6 +304,23 @@ namespace OtpravkaPochtaRu
         }
 
         /// <summary>
+        /// Запрос данных о партиях Не в архиве
+        /// </summary>
+        /// <returns></returns>
+        public Batch[] GetAllBatchesNotInArchive()
+        {
+            string url = $"{this._BaseUrl}/1.0/batch";
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncGET(url)))
+                    .Result;
+            var resultReturn = Batch.FromJson(result);
+
+            return resultReturn;
+        }
+
+        /// <summary>
         /// Запрос данных о заказах в партии
         /// </summary>
         /// <param name="BatchName">Имя партии</param>
@@ -221,7 +343,7 @@ namespace OtpravkaPochtaRu
         /// </summary>
         /// <param name="BatchName">Имя партии</param>
         /// <returns></returns>
-        public Batch GetBatchByName(string BatchName)
+        public Batch[] GetBatchByName(string BatchName)
         {
             string url = $"{this._BaseUrl}/1.0/batch/{BatchName}";
 
@@ -229,10 +351,48 @@ namespace OtpravkaPochtaRu
                 (Task.Run(async ()
                     => await AsyncGET(url)))
                     .Result;
-            var resultReturn = Batch.FromJson(result)[0];
+            var resultReturn = Batch.FromJson(result);
 
             return resultReturn;
         }
+
+        /// <summary>
+        /// Поиск заказа в партии по внутреннему id
+        /// </summary>
+        /// <param name="Id">Внутренний id заказа</param>
+        /// <returns></returns>
+        public FindOrderResult GetOrderInBatchById(long Id)
+        {
+            string url = $"{this._BaseUrl}/1.0/shipment/{Id}";
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncGET(url)))
+                    .Result;
+            var resultReturn = FindOrderResult.FromJsonSingl(result);
+
+            return resultReturn;
+        }
+
+        /// <summary>
+        /// Поиск заказа по Идентификатору (Id)
+        /// </summary>
+        /// <param name="Id">Внутренний id заказа</param>
+        /// <returns></returns>
+        public FindOrderResult GetOrderById(long Id)
+        {
+            string url = $"{this._BaseUrl}/1.0/backlog/{Id}";
+
+            string result =
+                (Task.Run(async ()
+                    => await AsyncGET(url)))
+                    .Result;
+            var resultReturn = FindOrderResult.FromJsonSingl(result);
+
+            return resultReturn;
+        }
+
+
 
         /// <summary>
         /// Нормализация адреса
