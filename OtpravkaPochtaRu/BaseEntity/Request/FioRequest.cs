@@ -15,11 +15,20 @@ namespace Request.FioRequest
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    /// <summary>
+    /// Класс для запроса "Нормализация Ф.И.О."
+    /// </summary>
     public partial class FioRequest
     {
+        /// <summary>
+        /// Идентификатор записи
+        /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; }
 
+        /// <summary>
+        /// Оригинальные фамилия, имя , отчество одной строкой
+        /// </summary>
         [JsonProperty("original-fio")]
         public string OriginalFio { get; set; }
     }

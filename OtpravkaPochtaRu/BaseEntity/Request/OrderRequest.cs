@@ -15,7 +15,9 @@ namespace Request.OrderRequest
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
-    
+    /// <summary>
+    /// Класс Заказ(Отправление)
+    /// </summary>
     public partial class OrderRequest
     {
         /// <summary>
@@ -377,7 +379,7 @@ namespace Request.OrderRequest
         public string Currency { get; set; }
 
         /// <summary>
-        /// Список вложений. Массив
+        /// Список почтовых вложений. Массив
         /// </summary>
         [JsonProperty("customs-entries", NullValueHandling = NullValueHandling.Ignore)]
         public CustomsEntry[] CustomsEntries { get; set; }
@@ -420,6 +422,9 @@ namespace Request.OrderRequest
         public bool? WithLicense { get; set; }
     }
 
+    /// <summary>
+    /// Экземпляр почтового вложения.
+    /// </summary>
     public partial class CustomsEntry
     {
         /// <summary>
@@ -489,14 +494,14 @@ namespace Request.OrderRequest
     public partial class Goods
     {
         /// <summary>
-        /// Список вложений. Массив
+        /// Список товарных вложений. Массив
         /// </summary>
         [JsonProperty("items", NullValueHandling = NullValueHandling.Ignore)]
         public Item[] Items { get; set; }
     }
 
     /// <summary>
-    /// Вложение.
+    /// Экземпляр Товарного вложения.
     /// </summary>
     public partial class Item
     {

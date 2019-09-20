@@ -21,6 +21,9 @@ using Response.DeleteOrderResult;
 
 namespace OtpravkaPochtaRu
 {
+    /// <summary>
+    /// Клиент для Api "Отправка Почта России"
+    /// </summary>
     public class OtpravkaClient
     {
         /// <summary>
@@ -43,10 +46,10 @@ namespace OtpravkaPochtaRu
         /// <summary>
         /// Конструктор клиента к Api Отправка ПочтаРоссии
         /// </summary>
-        /// <param name="UserAuthorization"></param>
-        /// <param name="Token"></param>
-        /// <param name="BaseUrl"></param>
-        /// <param name="Proxy">new WebProxy(string Host, int Port)</param>
+        /// <param name="UserAuthorization">Ключ авторизации(X-User-Authorization). Формат: "Basic [key]"</param>
+        /// <param name="Token">Токен авторизации(Authorization). Формат: "AccessToken [key]"</param>
+        /// <param name="BaseUrl">Базовый Url Api "Отправка ПочтаРосии"</param>
+        /// <param name="Proxy">Прокси для отправки запроса. = new WebProxy(string Host, int Port)</param>
         public OtpravkaClient(string UserAuthorization, string Token, string BaseUrl = "https://otpravka-api.pochta.ru", IWebProxy Proxy = null)
         {
             _UserAuthorization = UserAuthorization ?? throw new ArgumentNullException(nameof(UserAuthorization));
@@ -155,7 +158,6 @@ namespace OtpravkaPochtaRu
             return resString;
         }
 
-
         /// <summary>
         /// Асинхронный DELETE Web-запрос
         /// </summary>
@@ -207,15 +209,15 @@ namespace OtpravkaPochtaRu
             string url = $"{this._BaseUrl}/1.0/user/backlog";
 
             // Тело для запроса
-            var RequestInJson = Request.OrderRequest.Serialize.ToJson(orderRequests);
+            var JsonRequestBody = Request.OrderRequest.Serialize.ToJson(orderRequests);
             
-            string result =
+            string requestResult =
                 (Task.Run(async ()
-                    => await AsyncPUT(url, RequestInJson)))
+                    => await AsyncPUT(url, JsonRequestBody)))
                     .Result;
-            var createOrderResult = CreateOrderResult.FromJson(result);
+            var result = CreateOrderResult.FromJson(requestResult);
 
-            return createOrderResult;
+            return result;
         }
 
         /// <summary>
@@ -231,15 +233,15 @@ namespace OtpravkaPochtaRu
             string url = $"{this._BaseUrl}/1.0/user/backlog";
 
             // Тело для запроса
-            var RequestInJson = Request.OrderRequest.Serialize.ToJson(orderRequest);
+            var JsonRequestBody = Request.OrderRequest.Serialize.ToJson(orderRequest);
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
-                    => await AsyncPUT(url, RequestInJson)))
+                    => await AsyncPUT(url, JsonRequestBody)))
                     .Result;
-            var createOrderResult = CreateOrderResult.FromJson(result);
+            var result = CreateOrderResult.FromJson(requestResult);
 
-            return createOrderResult;
+            return result;
         }
 
         /// <summary>
@@ -255,15 +257,15 @@ namespace OtpravkaPochtaRu
             string url = $"{this._BaseUrl}/1.0/backlog";
 
             // Тело для запроса
-            var RequestInJson = Request.DeleteOrderRequest.Serialize.ToJson(ordersArray);
+            var JsonRequestBody = Request.DeleteOrderRequest.Serialize.ToJson(ordersArray);
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
-                    => await AsyncPUT(url, RequestInJson)))
+                    => await AsyncPUT(url, JsonRequestBody)))
                     .Result;
-            var deleteResult = DeleteOrderResult.FromJson(result);
+            var result = DeleteOrderResult.FromJson(requestResult);
 
-            return deleteResult;
+            return result;
         }
 
         /// <summary>
@@ -277,13 +279,13 @@ namespace OtpravkaPochtaRu
 
             string url = $"{this._BaseUrl}/1.0/shipment/search?query={Barcode}";
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
                     => await AsyncGET(url)))
                     .Result;
-            var resultReturn = FindOrderResult.FromJson(result);
+            var result = FindOrderResult.FromJson(requestResult);
 
-            return resultReturn;
+            return result;
         }
 
         /// <summary>
@@ -294,13 +296,13 @@ namespace OtpravkaPochtaRu
         {
             string url = $"{this._BaseUrl}/1.0/archive";
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
                     => await AsyncGET(url)))
                     .Result;
-            var resultReturn = Batch.FromJson(result);
+            var result = Batch.FromJson(requestResult);
 
-            return resultReturn;
+            return result;
         }
 
         /// <summary>
@@ -311,13 +313,13 @@ namespace OtpravkaPochtaRu
         {
             string url = $"{this._BaseUrl}/1.0/batch";
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
                     => await AsyncGET(url)))
                     .Result;
-            var resultReturn = Batch.FromJson(result);
+            var result = Batch.FromJson(requestResult);
 
-            return resultReturn;
+            return result;
         }
 
         /// <summary>
@@ -329,13 +331,13 @@ namespace OtpravkaPochtaRu
         {
             string url = $"{this._BaseUrl}/1.0/batch/{BatchName}/shipment";
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
                     => await AsyncGET(url)))
                     .Result;
-            var resultReturn = FindOrderResult.FromJson(result);
+            var result = FindOrderResult.FromJson(requestResult);
 
-            return resultReturn;
+            return result;
         }
 
         /// <summary>
@@ -347,13 +349,13 @@ namespace OtpravkaPochtaRu
         {
             string url = $"{this._BaseUrl}/1.0/batch/{BatchName}";
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
                     => await AsyncGET(url)))
                     .Result;
-            var resultReturn = Batch.FromJson(result);
+            var result = Batch.FromJson(requestResult);
 
-            return resultReturn;
+            return result;
         }
 
         /// <summary>
@@ -365,13 +367,13 @@ namespace OtpravkaPochtaRu
         {
             string url = $"{this._BaseUrl}/1.0/shipment/{Id}";
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
                     => await AsyncGET(url)))
                     .Result;
-            var resultReturn = FindOrderResult.FromJsonSingl(result);
+            var result = FindOrderResult.FromJsonSingl(requestResult);
 
-            return resultReturn;
+            return result;
         }
 
         /// <summary>
@@ -383,21 +385,19 @@ namespace OtpravkaPochtaRu
         {
             string url = $"{this._BaseUrl}/1.0/backlog/{Id}";
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
                     => await AsyncGET(url)))
                     .Result;
-            var resultReturn = FindOrderResult.FromJsonSingl(result);
+            var result = FindOrderResult.FromJsonSingl(requestResult);
 
-            return resultReturn;
+            return result;
         }
-
-
 
         /// <summary>
         /// Нормализация адреса
         /// </summary>
-        /// <param name="addressRequest">Массив NormalizedAddress'ов</param>
+        /// <param name="addressRequest">Array AddressRequest class objects</param>
         /// <returns></returns>
         public NormalizedAddress[] NormalizedAddressRequest(AddressRequest[] addressRequest)
         {
@@ -407,21 +407,21 @@ namespace OtpravkaPochtaRu
             string url = $"{this._BaseUrl}/1.0/clean/address";
 
             // Тело для запроса
-            var RequestInJson = Request.AddressRequest.Serialize.ToJson(addressRequest);
+            var JsonRequestBody = Request.AddressRequest.Serialize.ToJson(addressRequest);
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
-                    => await AsyncPOST(url, RequestInJson)))
+                    => await AsyncPOST(url, JsonRequestBody)))
                     .Result;
-            var createOrderResult = NormalizedAddress.FromJson(result);
+            var result = NormalizedAddress.FromJson(requestResult);
 
-            return createOrderResult;
+            return result;
         }
 
         /// <summary>
         /// Нормализация ФИО
         /// </summary>
-        /// <param name="fioRequest">Массив FioRequest</param>
+        /// <param name="fioRequest">Array FioRequest class objects</param>
         /// <returns></returns>
         public NormalizedFio[] NormalizedFioRequest(FioRequest[] fioRequest)
         {
@@ -431,21 +431,21 @@ namespace OtpravkaPochtaRu
             string url = $"{this._BaseUrl}/1.0/clean/physical";
 
             // Тело для запроса
-            var RequestInJson = Request.FioRequest.Serialize.ToJson(fioRequest);
+            var JsonRequestBody = Request.FioRequest.Serialize.ToJson(fioRequest);
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
-                    => await AsyncPOST(url, RequestInJson)))
+                    => await AsyncPOST(url, JsonRequestBody)))
                     .Result;
-            var createOrderResult = NormalizedFio.FromJson(result);
+            var result = NormalizedFio.FromJson(requestResult);
 
-            return createOrderResult;
+            return result;
         }
 
         /// <summary>
         /// Нормализация телефонного номера
         /// </summary>
-        /// <param name="PhoneRequest"></param>
+        /// <param name="PhoneRequest">Array PhoneRequest class objects</param>
         /// <returns></returns>
         public NormalizedPhone[] NormalizedPhoneRequest(PhoneRequest[] PhoneRequest)
         {
@@ -455,15 +455,15 @@ namespace OtpravkaPochtaRu
             string url = $"{this._BaseUrl}/1.0/clean/physical";
 
             // Тело для запроса
-            var RequestInJson = Request.PhoneRequest.Serialize.ToJson(PhoneRequest);
+            var JsonRequestBody = Request.PhoneRequest.Serialize.ToJson(PhoneRequest);
 
-            string result =
+            string requestResult =
                 (Task.Run(async ()
-                    => await AsyncPOST(url, RequestInJson)))
+                    => await AsyncPOST(url, JsonRequestBody)))
                     .Result;
-            var createOrderResult = NormalizedPhone.FromJson(result);
+            var result = NormalizedPhone.FromJson(requestResult);
 
-            return createOrderResult;
+            return result;
         }
     }
 }

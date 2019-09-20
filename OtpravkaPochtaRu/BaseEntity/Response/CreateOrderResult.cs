@@ -15,35 +15,69 @@ namespace Response.CreateOrderResult
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    /// <summary>
+    /// Класс Результат создания заказа(отправления)
+    /// </summary>
     public partial class CreateOrderResult
     {
+        /// <summary>
+        /// Список ошибок
+        /// </summary>
         [JsonProperty("errors", NullValueHandling = NullValueHandling.Ignore)]
         public Error[] Errors { get; set; }
 
+        /// <summary>
+        /// Список внутрених идентификаторов заказов (Id) успешно обработанных
+        /// </summary>
         [JsonProperty("result-ids", NullValueHandling = NullValueHandling.Ignore)]
         public long[] ResultIds { get; set; }
     }
 
+    /// <summary>
+    /// Ошибка
+    /// </summary>
     public partial class Error
     {
+        /// <summary>
+        /// Список кодов ошибок
+        /// </summary>
         [JsonProperty("error-codes", NullValueHandling = NullValueHandling.Ignore)]
         public ErrorCode[] ErrorCodes { get; set; }
 
+        /// <summary>
+        /// Индекс ошибочной записи в массиве Заказов(Отправлений)
+        /// </summary>
         [JsonProperty("position", NullValueHandling = NullValueHandling.Ignore)]
         public long? Position { get; set; }
     }
 
+    /// <summary>
+    /// Код ошибки
+    /// </summary>
     public partial class ErrorCode
     {
+        /// <summary>
+        /// Код: "UNDEFINED",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-errors
+        /// </summary>
         [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
         public string Code { get; set; }
 
+        /// <summary>
+        /// Описание ошибки (Опционально)
+        /// </summary>
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
+        /// <summary>
+        /// Подробности (Опционально)
+        /// </summary>
         [JsonProperty("details", NullValueHandling = NullValueHandling.Ignore)]
         public string Details { get; set; }
 
+        /// <summary>
+        /// Индекс в массиве (Опционально)
+        /// </summary>
         [JsonProperty("position", NullValueHandling = NullValueHandling.Ignore)]
         public long? Position { get; set; }
     }

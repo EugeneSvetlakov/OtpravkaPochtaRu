@@ -15,26 +15,54 @@ namespace Response.NormalizedFio
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    /// <summary>
+    /// Класс результата "Нормализация Ф.И.О."
+    /// </summary>
     public partial class NormalizedFio
     {
+        /// <summary>
+        /// Идентификатор записи
+        /// </summary>
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
 
+        /// <summary>
+        /// Отчество
+        /// </summary>
         [JsonProperty("middle-name", NullValueHandling = NullValueHandling.Ignore)]
         public string MiddleName { get; set; }
 
+        /// <summary>
+        /// Имя
+        /// </summary>
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Оригинальные фамилия, имя , отчество одной строкой
+        /// </summary>
         [JsonProperty("original-fio", NullValueHandling = NullValueHandling.Ignore)]
         public string OriginalFio { get; set; }
 
+        /// <summary>
+        /// Код качества нормализации ФИО: 
+        /// "CONFIRMED_MANUALLY"(Подтверждено контролером)
+        /// "EDITED"(Правильное значение)
+        /// "NOT_SURE"(Сомнительное значение)
+        /// см. https://otpravka.pochta.ru/specification#/enums-clean-fio-quality
+        /// </summary>
         [JsonProperty("quality-code", NullValueHandling = NullValueHandling.Ignore)]
         public string QualityCode { get; set; }
 
+        /// <summary>
+        /// Фамилия
+        /// </summary>
         [JsonProperty("surname", NullValueHandling = NullValueHandling.Ignore)]
         public string Surname { get; set; }
 
+        /// <summary>
+        /// Приемлемое ли качество произведенной очистки? Логические: true или false
+        /// </summary>
         [JsonProperty("valid", NullValueHandling = NullValueHandling.Ignore)]
         public bool? Valid { get; set; }
     }

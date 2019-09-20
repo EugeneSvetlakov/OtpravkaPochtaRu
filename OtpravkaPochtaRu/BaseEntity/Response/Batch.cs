@@ -15,137 +15,289 @@ namespace Response.Batch
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    /// <summary>
+    /// Класс "Партия заказов(отправлений)
+    /// </summary>
     public partial class Batch
     {
+        /// <summary>
+        /// Имя (Номер) партии
+        /// </summary>
         [JsonProperty("batch-name", NullValueHandling = NullValueHandling.Ignore)]
         public string BatchName { get; set; }
 
+        /// <summary>
+        /// Статус партии: 
+        /// "CREATED"(Партия создана), 
+        /// "FROZEN"(Партия в процессе приема, редактирование запрещено), 
+        /// "ACCEPTED"(Партия принята в отделении связи), 
+        /// "SENT"(По заказам в партии существуют данные в сервисе трекинга), 
+        /// "ARCHIVED"(Партия находится в архиве)
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-batch-status
+        /// </summary>
         [JsonProperty("batch-status", NullValueHandling = NullValueHandling.Ignore)]
         public string BatchStatus { get; set; }
 
+        /// <summary>
+        /// Дата обновления статуса
+        /// </summary>
         [JsonProperty("batch-status-date", NullValueHandling = NullValueHandling.Ignore)]
         public string BatchStatusDate { get; set; }
 
+        /// <summary>
+        /// Типы отправлений в комбинированной партии. Массив.
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-mail-type
+        /// </summary>
         [JsonProperty("combined-batch-mail-types", NullValueHandling = NullValueHandling.Ignore)]
         public string[] CombinedBatchMailTypes { get; set; }
 
+        /// <summary>
+        /// Плата за услугу "Курьерский сбор" с НДС (Опционально)
+        /// </summary>
         [JsonProperty("courier-call-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? CourierCallRateWithVat { get; set; }
 
+        /// <summary>
+        /// Плата за услугу "Курьерский сбор" без НДС (Опционально)
+        /// </summary>
         [JsonProperty("courier-call-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? CourierCallRateWoVat { get; set; }
 
+        /// <summary>
+        /// Статусы заявки на вызов курьера. (Опционально): "NOT_REQUIRED",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-courier-order-statuses
+        /// </summary>
         [JsonProperty("courier-order-statuses", NullValueHandling = NullValueHandling.Ignore)]
         public string[] CourierOrderStatuses { get; set; }
 
+        /// <summary>
+        /// Способ оплаты уведомления о вручении РПО (Опционально): "CASHLESS",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-payment-methods
+        /// </summary>
         [JsonProperty("delivery-notice-payment-method", NullValueHandling = NullValueHandling.Ignore)]
         public string DeliveryNoticePaymentMethod { get; set; }
 
+        /// <summary>
+        /// Признак международной почты. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("international", NullValueHandling = NullValueHandling.Ignore)]
         public bool? International { get; set; }
 
+        /// <summary>
+        /// Номер документа для сдачи партии (Опционально)
+        /// </summary>
         [JsonProperty("list-number", NullValueHandling = NullValueHandling.Ignore)]
         public long? ListNumber { get; set; }
 
+        /// <summary>
+        /// Дата документа для сдачи партии (yyyy-MM-dd) (Опционально)
+        /// </summary>
         [JsonProperty("list-number-date", NullValueHandling = NullValueHandling.Ignore)]
         public string ListNumberDate { get; set; }
 
+        /// <summary>
+        /// Категория РПО: "ORDERED",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-mail-category
+        /// </summary>
         [JsonProperty("mail-category", NullValueHandling = NullValueHandling.Ignore)]
         public string MailCategory { get; set; }
 
+        /// <summary>
+        /// Категория РПО (текст)
+        /// </summary>
         [JsonProperty("mail-category-text", NullValueHandling = NullValueHandling.Ignore)]
         public string MailCategoryText { get; set; }
 
+        /// <summary>
+        /// Код разряда письма: "WO_RANK",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-mail-rank
+        /// </summary>
         [JsonProperty("mail-rank", NullValueHandling = NullValueHandling.Ignore)]
         public string MailRank { get; set; }
 
+        /// <summary>
+        /// Вид РПО: "UNDEFINED",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-mail-type
+        /// </summary>
         [JsonProperty("mail-type", NullValueHandling = NullValueHandling.Ignore)]
         public string MailType { get; set; }
 
+        /// <summary>
+        /// Вид РПО (текст)
+        /// </summary>
         [JsonProperty("mail-type-text", NullValueHandling = NullValueHandling.Ignore)]
         public string MailTypeText { get; set; }
 
+        /// <summary>
+        /// Способ оплаты уведомления: "CASHLESS",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-payment-method
+        /// </summary>
         [JsonProperty("notice-payment-method", NullValueHandling = NullValueHandling.Ignore)]
         public string NoticePaymentMethod { get; set; }
 
+        /// <summary>
+        /// Способ оплаты заказа(отправления): "STAMP",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-payment-methods
+        /// </summary>
         [JsonProperty("payment-method", NullValueHandling = NullValueHandling.Ignore)]
         public string PaymentMethod { get; set; }
 
+        /// <summary>
+        /// Коды отметок внутренних и международных отправлений: "WITHOUT_MARK",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-postmarks
+        /// </summary>
         [JsonProperty("postmarks", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Postmarks { get; set; }
 
+        /// <summary>
+        /// Адрес места приема
+        /// </summary>
         [JsonProperty("postoffice-address", NullValueHandling = NullValueHandling.Ignore)]
         public string PostofficeAddress { get; set; }
 
+        /// <summary>
+        /// Индекс места приема
+        /// </summary>
         [JsonProperty("postoffice-code", NullValueHandling = NullValueHandling.Ignore)]
         public string PostofficeCode { get; set; }
 
+        /// <summary>
+        /// Наименование места приема
+        /// </summary>
         [JsonProperty("postoffice-name", NullValueHandling = NullValueHandling.Ignore)]
         public string PostofficeName { get; set; }
 
+        /// <summary>
+        /// Сумма платы за авиа пересылку в копейках, без НДС (Опционально)
+        /// </summary>
         [JsonProperty("shipment-avia-rate-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentAviaRateSum { get; set; }
 
+        /// <summary>
+        /// НДС от суммы платы за проверку комплектности в копейках
+        /// </summary>
         [JsonProperty("shipment-avia-rate-vat-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentAviaRateVatSum { get; set; }
 
+        /// <summary>
+        /// Сумма платы за проверку комплектности в копейках, без НДС
+        /// </summary>
         [JsonProperty("shipment-completeness-checking-rate-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentCompletenessCheckingRateSum { get; set; }
 
+        /// <summary>
+        /// НДС от суммы платы за проверку комплектности в копейках
+        /// </summary>
         [JsonProperty("shipment-completeness-checking-rate-vat-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentCompletenessCheckingRateVatSum { get; set; }
 
+        /// <summary>
+        /// Количество заказов в партии (Опционально)
+        /// </summary>
         [JsonProperty("shipment-count", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentCount { get; set; }
 
+        /// <summary>
+        /// Сумма платы за наземную пересылку в копейках, без НДС (Опционально)
+        /// </summary>
         [JsonProperty("shipment-ground-rate-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentGroundRateSum { get; set; }
 
+        /// <summary>
+        /// НДС от суммы платы за наземную пересылку в копейках (Опционально)
+        /// </summary>
         [JsonProperty("shipment-ground-rate-vat-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentGroundRateVatSum { get; set; }
 
+        /// <summary>
+        /// Сумма платы за объявленную ценность в копейках, без НДС (Опционально)
+        /// </summary>
         [JsonProperty("shipment-insure-rate-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentInsureRateSum { get; set; }
 
+        /// <summary>
+        /// НДС от суммы платы за наземную пересылку в копейках (Опционально)
+        /// </summary>
         [JsonProperty("shipment-insure-rate-vat-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentInsureRateVatSum { get; set; }
 
+        /// <summary>
+        /// Сумма платы за опись вложения в копейках, без НДС
+        /// </summary>
         [JsonProperty("shipment-inventory-rate-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentInventoryRateSum { get; set; }
 
+        /// <summary>
+        /// НДС от суммы платы за опись вложения в копейках, без НДС
+        /// </summary>
         [JsonProperty("shipment-inventory-rate-vat-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentInventoryRateVatSum { get; set; }
 
+        /// <summary>
+        /// Общий вес в граммах (Опционально)
+        /// </summary>
         [JsonProperty("shipment-mass", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentMass { get; set; }
 
+        /// <summary>
+        /// Сумма платы за пересылку в копейках, без НДС (Опционально)
+        /// </summary>
         [JsonProperty("shipment-mass-rate-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentMassRateSum { get; set; }
 
+        /// <summary>
+        /// НДС от суммы платы за пересылку в копейках (Опционально)
+        /// </summary>
         [JsonProperty("shipment-mass-rate-vat-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentMassRateVatSum { get; set; }
 
+        /// <summary>
+        /// Сумма надбавки за уведомление о вручении в копейках (Опционально)
+        /// </summary>
         [JsonProperty("shipment-notice-rate-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentNoticeRateSum { get; set; }
 
+        /// <summary>
+        /// НДС от суммы надбавки за уведомление о вручении в копейках (Опционально)
+        /// </summary>
         [JsonProperty("shipment-notice-rate-vat-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentNoticeRateVatSum { get; set; }
 
+        /// <summary>
+        /// Сумма платы за смс нотификацию в копейках, без НДС
+        /// </summary>
         [JsonProperty("shipment-sms-notice-rate-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentSmsNoticeRateSum { get; set; }
 
+        /// <summary>
+        /// НДС от суммы платы за смс нотификацию в копейках
+        /// </summary>
         [JsonProperty("shipment-sms-notice-rate-vat-sum", NullValueHandling = NullValueHandling.Ignore)]
         public long? ShipmentSmsNoticeRateVatSum { get; set; }
 
+        /// <summary>
+        /// Категория уведомления о вручении РПО: "SIMPLE"
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-notify-category
+        /// </summary>
         [JsonProperty("shipping-notice-type", NullValueHandling = NullValueHandling.Ignore)]
         public string ShippingNoticeType { get; set; }
 
+        /// <summary>
+        /// Вид транспортировки: "SURFACE",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-transport-type
+        /// </summary>
         [JsonProperty("transport-type", NullValueHandling = NullValueHandling.Ignore)]
         public string TransportType { get; set; }
 
+        /// <summary>
+        /// Признак использования онлайн-баланса. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("use-online-balance", NullValueHandling = NullValueHandling.Ignore)]
         public bool? UseOnlineBalance { get; set; }
 
+        /// <summary>
+        /// Без указания массы. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("wo-mass", NullValueHandling = NullValueHandling.Ignore)]
         public bool? WoMass { get; set; }
     }

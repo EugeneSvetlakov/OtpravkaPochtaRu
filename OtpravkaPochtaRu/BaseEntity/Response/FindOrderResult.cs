@@ -15,368 +15,757 @@ namespace Response.FindOrderResult
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    /// <summary>
+    /// Класс "заказ(отправление)"
+    /// </summary>
     public partial class FindOrderResult
     {
+        /// <summary>
+        /// Адрес получателя скорректирован в процессе очистки. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("address-changed", NullValueHandling = NullValueHandling.Ignore)]
         public bool? AddressChanged { get; set; }
 
+        /// <summary>
+        /// Тип адреса: "DEFAULT", "PO_BOX", "DEMAND", "UNIT"
+        /// </summary>
         [JsonProperty("address-type-to", NullValueHandling = NullValueHandling.Ignore)]
         public string AddressTypeTo { get; set; }
 
+        /// <summary>
+        /// Район (Опционально)
+        /// </summary>
         [JsonProperty("area-to", NullValueHandling = NullValueHandling.Ignore)]
         public string AreaTo { get; set; }
 
+        /// <summary>
+        /// Авиа-сбор без НДС (для совместимости). (Опционально)
+        /// </summary>
         [JsonProperty("avia-rate", NullValueHandling = NullValueHandling.Ignore)]
         public long? AviaRate { get; set; }
 
+        /// <summary>
+        /// Авиа-сбор с НДС. (Опционально)
+        /// </summary>
         [JsonProperty("avia-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? AviaRateWithVat { get; set; }
 
+        /// <summary>
+        /// Авиа-сбор без НДС. (Опционально)
+        /// </summary>
         [JsonProperty("avia-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? AviaRateWoVat { get; set; }
 
+        /// <summary>
+        /// ШПИ (Штрихкод/Номер отслеживания)
+        /// </summary>
         [JsonProperty("barcode", NullValueHandling = NullValueHandling.Ignore)]
         public string Barcode { get; set; }
 
+        /// <summary>
+        /// Категория партии. "SIMPLE"(Простое), "ORDERED"(Заказное), "ORDINARY"(Обыкновенное), 
+        /// "WITH_DECLARED_VALUE"(С объявленной ценностью), 
+        /// "WITH_DECLARED_VALUE_AND_CASH_ON_DELIVERY"(С объявленной ценностью и наложенным платежом), 
+        /// "WITH_DECLARED_VALUE_AND_COMPULSORY_PAYMENT"(С объявленной ценностью и обязательным платежом), 
+        /// "WITH_COMPULSORY_PAYMENT"(С обязательным платежом), "COMBINED"(Комбинированное)
+        /// </summary>
         [JsonProperty("batch-category", NullValueHandling = NullValueHandling.Ignore)]
         public string BatchCategory { get; set; }
 
+        /// <summary>
+        /// Имя партии
+        /// </summary>
         [JsonProperty("batch-name", NullValueHandling = NullValueHandling.Ignore)]
         public string BatchName { get; set; }
 
+        /// <summary>
+        /// Статус партии: "CREATED"(Партия создана), 
+        /// "FROZEN"(Партия в процессе приема, редактирование запрещено),
+        /// "ACCEPTED"(Партия принята в отделении связи), 
+        /// "SENT"(По заказам в партии существуют данные в сервисе трекинга), 
+        /// "ARCHIVED"(Партия находится в архиве)
+        /// </summary>
         [JsonProperty("batch-status", NullValueHandling = NullValueHandling.Ignore)]
         public string BatchStatus { get; set; }
 
+        /// <summary>
+        /// Часть здания: Строение. (Опционально)
+        /// </summary>
         [JsonProperty("building-to", NullValueHandling = NullValueHandling.Ignore)]
         public string BuildingTo { get; set; }
 
+        /// <summary>
+        /// Комментарий
+        /// </summary>
         [JsonProperty("comment", NullValueHandling = NullValueHandling.Ignore)]
         public string Comment { get; set; }
 
+        /// <summary>
+        /// Признак услуги проверки комплектности. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("completeness-checking", NullValueHandling = NullValueHandling.Ignore)]
         public bool? CompletenessChecking { get; set; }
 
+        /// <summary>
+        /// Надбавка за "Проверку комплектности" с НДС (Опционально)
+        /// </summary>
         [JsonProperty("completeness-checking-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? CompletenessCheckingRateWithVat { get; set; }
 
+        /// <summary>
+        /// Надбавка за "Проверку комплектности" без НДС (Опционально)
+        /// </summary>
         [JsonProperty("completeness-checking-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? CompletenessCheckingRateWoVat { get; set; }
 
+        /// <summary>
+        /// Часть здания: Корпус (Опционально)
+        /// </summary>
         [JsonProperty("corpus-to", NullValueHandling = NullValueHandling.Ignore)]
         public string CorpusTo { get; set; }
 
+        /// <summary>
+        /// Таможенная декларация (Опционально)
+        /// </summary>
         [JsonProperty("customs-declaration", NullValueHandling = NullValueHandling.Ignore)]
         public CustomsDeclaration CustomsDeclaration { get; set; }
 
+        /// <summary>
+        /// Примерные сроки доставки (Опционально)
+        /// </summary>
         [JsonProperty("delivery-time", NullValueHandling = NullValueHandling.Ignore)]
         public DeliveryTime DeliveryTime { get; set; }
 
+        /// <summary>
+        /// Признак оплаты при получении. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("delivery-with-cod", NullValueHandling = NullValueHandling.Ignore)]
         public bool? DeliveryWithCod { get; set; }
 
+        /// <summary>
+        /// Линейные размеры (Опционально)
+        /// </summary>
         [JsonProperty("dimension", NullValueHandling = NullValueHandling.Ignore)]
         public Dimension Dimension { get; set; }
 
+        /// <summary>
+        /// Тип конверта - ГОСТ Р 51506-99: "C4"(229мм x 324мм), "C5"(162мм x 229мм), "DL"(110мм x 220мм), 
+        /// "A6"(105мм x 148мм), "A7"(74мм x 105мм)
+        /// </summary>
         [JsonProperty("envelope-type", NullValueHandling = NullValueHandling.Ignore)]
         public string EnvelopeType { get; set; }
 
+        /// <summary>
+        /// Надбавка за отметку "Осторожно/Хрупкое" (Опционально)
+        /// </summary>
         [JsonProperty("fragile-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? FragileRateWithVat { get; set; }
 
+        /// <summary>
+        /// Надбавка за отметку "Осторожно/Хрупкое" без НДС
+        /// </summary>
         [JsonProperty("fragile-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? FragileRateWoVat { get; set; }
 
+        /// <summary>
+        /// Имя получателя (Опционально)
+        /// </summary>
         [JsonProperty("given-name", NullValueHandling = NullValueHandling.Ignore)]
         public string GivenName { get; set; }
 
+        /// <summary>
+        /// Товарное вложение РПО (Опционально)
+        /// </summary>
         [JsonProperty("goods", NullValueHandling = NullValueHandling.Ignore)]
         public Goods Goods { get; set; }
 
+        /// <summary>
+        /// Сбор за доставку наземно без НДС (для совместимости) (Опционально)
+        /// </summary>
         [JsonProperty("ground-rate", NullValueHandling = NullValueHandling.Ignore)]
         public long? GroundRate { get; set; }
 
+        /// <summary>
+        /// Сбор за доставку наземно с НДС (Опционально)
+        /// </summary>
         [JsonProperty("ground-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? GroundRateWithVat { get; set; }
 
+        /// <summary>
+        /// Сбор за доставку наземно без НДС (Опционально)
+        /// </summary>
         [JsonProperty("ground-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? GroundRateWoVat { get; set; }
 
+        /// <summary>
+        /// Название гостиницы (Опционально)
+        /// </summary>
         [JsonProperty("hotel-to", NullValueHandling = NullValueHandling.Ignore)]
         public string HotelTo { get; set; }
 
+        /// <summary>
+        /// Часть адреса: Номер здания 
+        /// </summary>
         [JsonProperty("house-to", NullValueHandling = NullValueHandling.Ignore)]
         public string HouseTo { get; set; }
 
+        /// <summary>
+        /// Расшифровка состояния отправления (Опционально)
+        /// </summary>
         [JsonProperty("human-operation-name", NullValueHandling = NullValueHandling.Ignore)]
         public string HumanOperationName { get; set; }
 
+        /// <summary>
+        /// Внешний идентификатор заказа (Опционально)
+        /// </summary>
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
 
+        /// <summary>
+        /// Почтовый индекс
+        /// </summary>
         [JsonProperty("index-to", NullValueHandling = NullValueHandling.Ignore)]
         public long? IndexTo { get; set; }
 
+        /// <summary>
+        /// Страхование без НДС (для совместимости) (Опционально)
+        /// </summary>
         [JsonProperty("insr-rate", NullValueHandling = NullValueHandling.Ignore)]
         public long? InsrRate { get; set; }
 
+        /// <summary>
+        /// Страхование с НДС (Опционально)
+        /// </summary>
         [JsonProperty("insr-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? InsrRateWithVat { get; set; }
 
+        /// <summary>
+        /// Страхование без НДС (Опционально)
+        /// </summary>
         [JsonProperty("insr-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? InsrRateWoVat { get; set; }
 
+        /// <summary>
+        /// Объявленная ценность (копейки) (Опционально)
+        /// </summary>
         [JsonProperty("insr-value", NullValueHandling = NullValueHandling.Ignore)]
         public long? InsrValue { get; set; }
 
+        /// <summary>
+        /// Надбавка за "Опись вложения" с НДС
+        /// </summary>
         [JsonProperty("inventory-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? InventoryRateWithVat { get; set; }
 
+        /// <summary>
+        /// Надбавка за "Опись вложения" без НДС
+        /// </summary>
         [JsonProperty("inventory-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? InventoryRateWoVat { get; set; }
 
+        /// <summary>
+        /// Заказ удален? Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("is-deleted", NullValueHandling = NullValueHandling.Ignore)]
         public bool? IsDeleted { get; set; }
 
+        /// <summary>
+        /// Атрибут последней операции из трекинга (Опционально): "UNNOUN"(Атрибут операции не определен),...
+        /// </summary>
         [JsonProperty("last-oper-attr", NullValueHandling = NullValueHandling.Ignore)]
         public string LastOperAttr { get; set; }
 
+        /// <summary>
+        /// Тип последней операции из трекинга (Опционально): "UNNOUN"(Атрибут операции не определен),...
+        /// </summary>
         [JsonProperty("last-oper-type", NullValueHandling = NullValueHandling.Ignore)]
         public string LastOperType { get; set; }
 
+        /// <summary>
+        /// Почта ID HID юридического лица
+        /// </summary>
         [JsonProperty("legal-hid", NullValueHandling = NullValueHandling.Ignore)]
         public string LegalHid { get; set; }
 
+        /// <summary>
+        /// Часть здания: Литера (Опционально)
+        /// </summary>
         [JsonProperty("letter-to", NullValueHandling = NullValueHandling.Ignore)]
         public string LetterTo { get; set; }
 
+        /// <summary>
+        /// Микрорайон (Опционально)
+        /// </summary>
         [JsonProperty("location-to", NullValueHandling = NullValueHandling.Ignore)]
         public string LocationTo { get; set; }
 
+        /// <summary>
+        ///  Категория РПО (Опционально): "SIMPLE"(Простое), "ORDERED"(Заказное), "ORDINARY"(Обыкновенное), 
+        /// "WITH_DECLARED_VALUE"(С объявленной ценностью), 
+        /// "WITH_DECLARED_VALUE_AND_CASH_ON_DELIVERY"(С объявленной ценностью и наложенным платежом), 
+        /// "WITH_DECLARED_VALUE_AND_COMPULSORY_PAYMENT"(С объявленной ценностью и обязательным платежом), 
+        /// "WITH_COMPULSORY_PAYMENT"(С обязательным платежом)
+        /// </summary>
         [JsonProperty("mail-category", NullValueHandling = NullValueHandling.Ignore)]
         public string MailCategory { get; set; }
 
+        /// <summary>
+        /// Код страны: 643(Российская федерация), ...
+        /// </summary>
         [JsonProperty("mail-direct", NullValueHandling = NullValueHandling.Ignore)]
         public long? MailDirect { get; set; }
 
+        /// <summary>
+        /// Код разряда почтового отправления: 
+        /// "WO_RANK"(Без разряда), 
+        /// "GOVERNMENTAL"(Правительственное), 
+        /// "MILITARY"(Воинское), 
+        /// "OFFICIAL"(Служебное), 
+        /// "JUDICIAL"(Судебное), 
+        /// "PRESIDENTIAL"(Президентское), 
+        /// "CREDIT"(Кредитное), 
+        /// "ADMINISTRATIVE"(Административное)
+        /// </summary>
         [JsonProperty("mail-rank", NullValueHandling = NullValueHandling.Ignore)]
         public string MailRank { get; set; }
 
+        /// <summary>
+        /// Вид РПО: "UNDEFINED",...
+        /// </summary>
         [JsonProperty("mail-type", NullValueHandling = NullValueHandling.Ignore)]
         public string MailType { get; set; }
 
+        /// <summary>
+        /// Признак ручного ввода адреса. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("manual-address-input", NullValueHandling = NullValueHandling.Ignore)]
         public bool? ManualAddressInput { get; set; }
 
+        /// <summary>
+        /// Вес РПО (в граммах) (Опционально)
+        /// </summary>
         [JsonProperty("mass", NullValueHandling = NullValueHandling.Ignore)]
         public long? Mass { get; set; }
 
+        /// <summary>
+        /// Почтовый сбор без НДС (для совместимости) (Опционально)
+        /// </summary>
         [JsonProperty("mass-rate", NullValueHandling = NullValueHandling.Ignore)]
         public long? MassRate { get; set; }
 
+        /// <summary>
+        /// Почтовый сбор с НДС (Опционально)
+        /// </summary>
         [JsonProperty("mass-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? MassRateWithVat { get; set; }
 
+        /// <summary>
+        /// Почтовый сбор без НДС (Опционально)
+        /// </summary>
         [JsonProperty("mass-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? MassRateWoVat { get; set; }
 
+        /// <summary>
+        /// Отчество получателя (Опционально)
+        /// </summary>
         [JsonProperty("middle-name", NullValueHandling = NullValueHandling.Ignore)]
         public string MiddleName { get; set; }
 
+        /// <summary>
+        /// Способ оплаты: "CASHLESS",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-payment-methods
+        /// </summary>
         [JsonProperty("notice-payment-method", NullValueHandling = NullValueHandling.Ignore)]
         public string NoticePaymentMethod { get; set; }
 
+        /// <summary>
+        /// Надбавка за уведомление о вручении с НДС (Опционально)
+        /// </summary>
         [JsonProperty("notice-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? NoticeRateWithVat { get; set; }
 
+        /// <summary>
+        /// Надбавка за уведомление о вручении без НДС (Опционально)
+        /// </summary>
         [JsonProperty("notice-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? NoticeRateWoVat { get; set; }
 
+        /// <summary>
+        /// Номер для а/я, войсковая часть, войсковая часть ЮЯ, полевая почта (Опционально)
+        /// </summary>
         [JsonProperty("num-address-type-to", NullValueHandling = NullValueHandling.Ignore)]
         public string NumAddressTypeTo { get; set; }
 
+        /// <summary>
+        /// Часть здания: Офис (Опционально)
+        /// </summary>
         [JsonProperty("office-to", NullValueHandling = NullValueHandling.Ignore)]
         public string OfficeTo { get; set; }
 
+        /// <summary>
+        /// Знак онлайн оплаты (Опционально)
+        /// </summary>
         [JsonProperty("online-payment-mark", NullValueHandling = NullValueHandling.Ignore)]
         public OnlinePaymentMark OnlinePaymentMark { get; set; }
 
+        /// <summary>
+        /// Номер заказа. Внешний идентификатор заказа, который формируется отправителем (Опционально)
+        /// </summary>
         [JsonProperty("order-num", NullValueHandling = NullValueHandling.Ignore)]
         public string OrderNum { get; set; }
 
+        /// <summary>
+        /// Надбавка за негабарит при весе более 10кг с НДС (Опционально)
+        /// </summary>
         [JsonProperty("oversize-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? OversizeRateWithVat { get; set; }
 
+        /// <summary>
+        /// Надбавка за негабарит при весе более 10кг без НДС (Опционально)
+        /// </summary>
         [JsonProperty("oversize-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? OversizeRateWoVat { get; set; }
 
+        /// <summary>
+        /// Сумма наложенного платежа (копейки) (Опционально)
+        /// </summary>
         [JsonProperty("payment", NullValueHandling = NullValueHandling.Ignore)]
         public long? Payment { get; set; }
 
+        /// <summary>
+        /// Способ оплаты. 
+        /// См. https://otpravka.pochta.ru/specification#/enums-payment-methods
+        /// </summary>
         [JsonProperty("payment-method", NullValueHandling = NullValueHandling.Ignore)]
         public string PaymentMethod { get; set; }
 
+        /// <summary>
+        /// Населенный пункт
+        /// </summary>
         [JsonProperty("place-to", NullValueHandling = NullValueHandling.Ignore)]
         public string PlaceTo { get; set; }
 
+        /// <summary>
+        /// Почта ID HID
+        /// </summary>
         [JsonProperty("pochtaid-hid", NullValueHandling = NullValueHandling.Ignore)]
         public string PochtaidHid { get; set; }
 
+        /// <summary>
+        /// Коды отметок внутренних и международных отправлений: "WITHOUT_MARK",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-postmarks
+        /// </summary>
         [JsonProperty("postmarks", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Postmarks { get; set; }
 
+        /// <summary>
+        /// Индекс места приема (Опционально)
+        /// </summary>
         [JsonProperty("postoffice-code", NullValueHandling = NullValueHandling.Ignore)]
         public string PostofficeCode { get; set; }
 
+        /// <summary>
+        /// Необработанный адрес получателя (Опционально)
+        /// </summary>
         [JsonProperty("raw-address", NullValueHandling = NullValueHandling.Ignore)]
         public string RawAddress { get; set; }
 
+        /// <summary>
+        /// Наименование получателя одной строкой (ФИО, наименование организации)
+        /// </summary>
         [JsonProperty("recipient-name", NullValueHandling = NullValueHandling.Ignore)]
         public string RecipientName { get; set; }
 
+        /// <summary>
+        /// Область, регион
+        /// </summary>
         [JsonProperty("region-to", NullValueHandling = NullValueHandling.Ignore)]
         public string RegionTo { get; set; }
 
+        /// <summary>
+        /// Часть здания: Номер помещения (Опционально)
+        /// </summary>
         [JsonProperty("room-to", NullValueHandling = NullValueHandling.Ignore)]
         public string RoomTo { get; set; }
 
+        /// <summary>
+        /// Часть здания: Дробь (Опционально)
+        /// </summary>
         [JsonProperty("slash-to", NullValueHandling = NullValueHandling.Ignore)]
         public string SlashTo { get; set; }
 
+        /// <summary>
+        /// Признак услуги SMS уведомления
+        /// </summary>
         [JsonProperty("sms-notice-recipient", NullValueHandling = NullValueHandling.Ignore)]
         public long? SmsNoticeRecipient { get; set; }
 
+        /// <summary>
+        /// Надбавка за "Пакет смс получателю" с НДС (Опционально)
+        /// </summary>
         [JsonProperty("sms-notice-recipient-rate-with-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? SmsNoticeRecipientRateWithVat { get; set; }
 
+        /// <summary>
+        /// Надбавка за "Пакет смс получателю" без НДС (Опционально)
+        /// </summary>
         [JsonProperty("sms-notice-recipient-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? SmsNoticeRecipientRateWoVat { get; set; }
 
+        /// <summary>
+        /// Почтовый индекс (буквенно-цифровой) (Опционально)
+        /// </summary>
         [JsonProperty("str-index-to", NullValueHandling = NullValueHandling.Ignore)]
         public string StrIndexTo { get; set; }
 
+        /// <summary>
+        /// Часть адреса: Улица
+        /// </summary>
         [JsonProperty("street-to", NullValueHandling = NullValueHandling.Ignore)]
         public string StreetTo { get; set; }
 
+        /// <summary>
+        /// Фамилия получателя (Опционально)
+        /// </summary>
         [JsonProperty("surname", NullValueHandling = NullValueHandling.Ignore)]
         public string Surname { get; set; }
 
+        /// <summary>
+        /// Телефон получателя (Число) (может быть обязательным для некоторых типов отправлений) (Опционально) 
+        /// </summary>
         [JsonProperty("tel-address", NullValueHandling = NullValueHandling.Ignore)]
         public long? TelAddress { get; set; }
 
+        /// <summary>
+        /// Плата всего без НДС (коп)
+        /// </summary>
         [JsonProperty("total-rate-wo-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? TotalRateWoVat { get; set; }
 
+        /// <summary>
+        /// Всего НДС (коп)
+        /// </summary>
         [JsonProperty("total-vat", NullValueHandling = NullValueHandling.Ignore)]
         public long? TotalVat { get; set; }
 
         [JsonProperty("transport-mode", NullValueHandling = NullValueHandling.Ignore)]
         public string TransportMode { get; set; }
 
+        /// <summary>
+        /// Вид транспортировки: "SURFACE",...
+        /// см. https://otpravka.pochta.ru/specification#/enums-base-transport-type
+        /// </summary>
         [JsonProperty("transport-type", NullValueHandling = NullValueHandling.Ignore)]
         public string TransportType { get; set; }
 
+        /// <summary>
+        /// Версия заказа
+        /// </summary>
         [JsonProperty("version", NullValueHandling = NullValueHandling.Ignore)]
         public long? Version { get; set; }
 
+        /// <summary>
+        /// Часть здания: Владение (Опционально)
+        /// </summary>
         [JsonProperty("vladenie-to", NullValueHandling = NullValueHandling.Ignore)]
         public string VladenieTo { get; set; }
     }
 
+    /// <summary>
+    /// Таможенная декларация
+    /// </summary>
     public partial class CustomsDeclaration
     {
+        /// <summary>
+        /// Код валюты: "RUB", ...
+        /// </summary>
         [JsonProperty("currency", NullValueHandling = NullValueHandling.Ignore)]
         public string Currency { get; set; }
 
+        /// <summary>
+        /// Список почтовых вложений
+        /// </summary>
         [JsonProperty("customs-entries", NullValueHandling = NullValueHandling.Ignore)]
         public CustomsEntry[] CustomsEntries { get; set; }
 
+        /// <summary>
+        /// Категория вложения: "GIFT"(Подарок), "DOCUMENT"(Документы), "SALE_OF_GOODS"(Продажа товара), 
+        /// "COMMERCIAL_SAMPLE"(Коммерческий образец), "OTHER"(Прочее)
+        /// </summary>
         [JsonProperty("entries-type", NullValueHandling = NullValueHandling.Ignore)]
         public string EntriesType { get; set; }
 
+        /// <summary>
+        /// Приложенные документы: сертификат. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("with-certificate", NullValueHandling = NullValueHandling.Ignore)]
         public bool? WithCertificate { get; set; }
 
+        /// <summary>
+        /// Приложенные документы: счет-фактура. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("with-invoice", NullValueHandling = NullValueHandling.Ignore)]
         public bool? WithInvoice { get; set; }
 
+        /// <summary>
+        /// Приложенные документы: лицензия. Логические: true или false (Опционально)
+        /// </summary>
         [JsonProperty("with-license", NullValueHandling = NullValueHandling.Ignore)]
         public bool? WithLicense { get; set; }
     }
 
+    /// <summary>
+    /// Экземпляр почтового вложения
+    /// </summary>
     public partial class CustomsEntry
     {
+        /// <summary>
+        /// Количество
+        /// </summary>
         [JsonProperty("amount", NullValueHandling = NullValueHandling.Ignore)]
         public long? Amount { get; set; }
 
+        /// <summary>
+        /// Код страны происхождения (Опционально): 643(Российская федерация), ...
+        /// </summary>
         [JsonProperty("country-code", NullValueHandling = NullValueHandling.Ignore)]
         public long? CountryCode { get; set; }
 
+        /// <summary>
+        /// Словесное описание
+        /// </summary>
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
+        /// <summary>
+        /// Код ТНВЭД
+        /// </summary>
         [JsonProperty("tnved-code", NullValueHandling = NullValueHandling.Ignore)]
         public string TnvedCode { get; set; }
 
+        /// <summary>
+        /// Цена за единицу товара в копейках (вкл. НДС) (Опционально)
+        /// </summary>
         [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
         public long? Value { get; set; }
 
+        /// <summary>
+        /// Вес товара (в граммах) (Опционально)
+        /// </summary>
         [JsonProperty("weight", NullValueHandling = NullValueHandling.Ignore)]
         public long? Weight { get; set; }
     }
 
+    /// <summary>
+    /// Примерные сроки доставки (Опционально)
+    /// </summary>
     public partial class DeliveryTime
     {
+        /// <summary>
+        /// Максимальное время доставки (дни)
+        /// </summary>
         [JsonProperty("max-days", NullValueHandling = NullValueHandling.Ignore)]
         public long? MaxDays { get; set; }
 
+        /// <summary>
+        /// Минимальное время доставки (дни) (Опционально)
+        /// </summary>
         [JsonProperty("min-days", NullValueHandling = NullValueHandling.Ignore)]
         public long? MinDays { get; set; }
     }
 
+    /// <summary>
+    /// Линейные размеры (Опционально)
+    /// </summary>
     public partial class Dimension
     {
+        /// <summary>
+        /// Линейная высота (сантиметры) (Опционально)
+        /// </summary>
         [JsonProperty("height", NullValueHandling = NullValueHandling.Ignore)]
         public long? Height { get; set; }
 
+        /// <summary>
+        /// Линейная длина (сантиметры) (Опционально)
+        /// </summary>
         [JsonProperty("length", NullValueHandling = NullValueHandling.Ignore)]
         public long? Length { get; set; }
 
+        /// <summary>
+        /// Линейная ширина (сантиметры) (Опционально)
+        /// </summary>
         [JsonProperty("width", NullValueHandling = NullValueHandling.Ignore)]
         public long? Width { get; set; }
     }
 
+    /// <summary>
+    /// Товарное вложение РПО
+    /// </summary>
     public partial class Goods
     {
+        /// <summary>
+        /// Список товарных вложений
+        /// </summary>
         [JsonProperty("items", NullValueHandling = NullValueHandling.Ignore)]
         public Item[] Items { get; set; }
     }
 
+    /// <summary>
+    /// Экземпляр товарного вложения
+    /// </summary>
     public partial class Item
     {
+        /// <summary>
+        /// Словесное описание
+        /// </summary>
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
+        /// <summary>
+        /// Объявленная ценность (копейки) (Опционально)
+        /// </summary>
         [JsonProperty("insr-value", NullValueHandling = NullValueHandling.Ignore)]
         public long? InsrValue { get; set; }
 
+        /// <summary>
+        /// Количество товара
+        /// </summary>
         [JsonProperty("quantity", NullValueHandling = NullValueHandling.Ignore)]
         public long? Quantity { get; set; }
 
+        /// <summary>
+        /// Цена за единицу товара в копейках (вкл. НДС) (Опционально)
+        /// </summary>
         [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
         public long? Value { get; set; }
 
+        /// <summary>
+        /// Ставка НДС: Без НДС(-1), 0, 10, 110, 20, 120 (Опционально)
+        /// </summary>
         [JsonProperty("vat-rate", NullValueHandling = NullValueHandling.Ignore)]
         public long? VatRate { get; set; }
     }
 
+    /// <summary>
+    /// (Опционально)
+    /// </summary>
     public partial class OnlinePaymentMark
     {
+        /// <summary>
+        /// Индекс ОПС приёма
+        /// </summary>
         [JsonProperty("index-oper", NullValueHandling = NullValueHandling.Ignore)]
         public string IndexOper { get; set; }
 
+        /// <summary>
+        /// Уникальный идентификатор ЗОО
+        /// </summary>
         [JsonProperty("online-payment-mark-id", NullValueHandling = NullValueHandling.Ignore)]
         public string OnlinePaymentMarkId { get; set; }
 
+        /// <summary>
+        /// Цена за единицу товара в копейках (вкл. НДС) (Опционально)
+        /// </summary>
         [JsonProperty("value", NullValueHandling = NullValueHandling.Ignore)]
         public long? Value { get; set; }
     }

@@ -15,20 +15,38 @@ namespace Request.PhoneRequest
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    /// <summary>
+    /// Класс запрос "Нормализация Телефонного номера"
+    /// </summary>
     public partial class PhoneRequest
     {
+        /// <summary>
+        /// Область/край трелефонного номера (Опционально)
+        /// </summary>
         [JsonProperty("area", NullValueHandling = NullValueHandling.Ignore)]
         public string Area { get; set; }
 
+        /// <summary>
+        /// Идентификатор записи
+        /// </summary>
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
 
+        /// <summary>
+        /// Оригинальные номер одной строкой
+        /// </summary>
         [JsonProperty("original-phone", NullValueHandling = NullValueHandling.Ignore)]
         public string OriginalPhone { get; set; }
 
+        /// <summary>
+        /// Город телефонного номера (Опционально)
+        /// </summary>
         [JsonProperty("place", NullValueHandling = NullValueHandling.Ignore)]
         public string Place { get; set; }
 
+        /// <summary>
+        /// Регион телефонного номера (Опционально)
+        /// </summary>
         [JsonProperty("region", NullValueHandling = NullValueHandling.Ignore)]
         public string Region { get; set; }
     }

@@ -15,11 +15,20 @@ namespace Request.AddressRequest
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    /// <summary>
+    /// Класс Исходные данные для Нормализации адреса
+    /// </summary>
     public partial class AddressRequest
     {
+        /// <summary>
+        /// Идентификатор записи
+        /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; }
 
+        /// <summary>
+        /// Оригинальные адрес одной строкой
+        /// </summary>
         [JsonProperty("original-address")]
         public string OriginalAddress { get; set; }
     }

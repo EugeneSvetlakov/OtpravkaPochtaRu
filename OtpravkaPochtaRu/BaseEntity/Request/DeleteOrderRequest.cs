@@ -15,6 +15,9 @@ namespace Request.DeleteOrderRequest
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
+    /// <summary>
+    /// Класс для запроса на удаление заказа(отправления): Целые числа. Массив внутренних идентификаторов заказов (Id)
+    /// </summary>
     public class DeleteOrderRequest
     {
         public static long[] FromJson(string json) => JsonConvert.DeserializeObject<long[]>(json, Request.DeleteOrderRequest.Converter.Settings);
